@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+<h1>Edit Profile</h1>
+
+<!--<form th:action="@{/profile/edit}" th:method="PATCH" enctype="multipart/form-data" th:object="${person}">-->
+<!--  <label for="username">Username:</label>-->
+<!--  <input type="text" id="username" name="username" th:value="${username}" required><br><br>-->
+
+<!--  <form  th:action="@{/profile/edit}" th:method="PATCH" enctype="multipart/form-data">-->
+<!--    <label for="avatar">Выберите аватарку:</label>-->
+<!--    <input type="file" id="avatar" name="avatar" accept="image/*">-->
+<!--  </form>-->
+
+<!--  <button type="submit">Save Changes</button>-->
+<!--</form>-->
+
+<form th:action="@{/settings/edit}" th:object="${person}" method="post" enctype="multipart/form-data">
+    <div>
+        <label>avatar: </label>
+        <input type="file" name="image" accept="image/png, image/jpeg"/>
+    </div>
+
+    <button type="submit">Save Changes</button>
+</form>
+
+</body>
+</html>
