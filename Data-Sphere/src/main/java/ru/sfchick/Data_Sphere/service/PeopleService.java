@@ -13,6 +13,7 @@ import ru.sfchick.Data_Sphere.repositories.PeopleRepository;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -31,6 +32,14 @@ public class PeopleService {
 
     public Optional<Person> findByUsername(String username) {
         return peopleRepository.findByUsername(username);
+    }
+
+    public Person findById(int id) {
+        return peopleRepository.findById(id).orElse(null);
+    }
+
+    public List<Person> findAll() {
+        return peopleRepository.findAll();
     }
 
     @Transactional

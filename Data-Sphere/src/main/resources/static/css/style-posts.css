@@ -1,0 +1,101 @@
+/* Общие настройки страницы */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #121212; /* Тёмный фон */
+    color: #e0e0e0; /* Светлый текст */
+    margin: 0;
+    padding: 0;
+}
+
+/* Стили для всех ссылок */
+a {
+    color: #ffffff; /* Белый цвет текста */
+    text-decoration: none; /* Убираем подчёркивание */
+}
+
+a:hover {
+    color: #2d88ff; /* Синий цвет при наведении */
+    text-decoration: underline; /* Подчёркивание при наведении */
+}
+
+a:visited {
+    color: #ffffff; /* Цвет посещённой ссылки (тоже белый, чтобы не отличалась) */
+}
+
+
+.main {
+    max-width: 800px; /* Максимальная ширина контента */
+    margin: 20px auto; /* Центрирование блока */
+    padding: 10px;
+}
+
+/* Стили для каждого поста */
+.post-container {
+    background-color: #1c1c1e; /* Тёмный фон блока поста */
+    border-radius: 8px; /* Закруглённые углы */
+    padding: 20px; /* Отступы внутри блока */
+    margin-bottom: 20px; /* Отступ между постами */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Тень для визуального разделения */
+}
+
+/* Аватарка и ник */
+.avatar-container {
+    display: flex; /* Горизонтальное выравнивание аватара и ника */
+    align-items: center; /* Центровка по вертикали */
+    gap: 10px; /* Расстояние между аватаром и ником */
+    margin-bottom: 15px; /* Отступ от заголовка */
+}
+
+.avatar-in-post {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; /* Круглый аватар */
+}
+
+/* Заголовок поста */
+.post-title {
+    font-size: 18px; /* Размер текста */
+    font-weight: bold; /* Жирный текст */
+    color: #ffffff; /* Белый текст */
+    text-decoration: none; /* Убираем подчёркивание */
+    margin-bottom: 15px; /* Отступ от изображения */
+    display: block; /* Заголовок занимает всю ширину */
+}
+
+.post-title:hover {
+    text-decoration: underline; /* Подчёркивание при наведении */
+}
+
+/* Картинка в посте */
+.post-image img {
+    /*max-width: 100%; !* Картинка занимает всю ширину блока *!*/
+    width: 300px;
+    height: 300px; /* Сохраняем пропорции */
+    border-radius: 4px; /* Лёгкое закругление углов */
+    margin-bottom: 15px; /* Отступ от кнопки */
+}
+
+/* Кнопка "Читать далее" */
+.button-container {
+    text-align: center; /* Центрирование кнопки */
+}
+
+.button-read-next {
+    display: inline-block;
+    background-color: #2d88ff; /* Синий фон кнопки */
+    color: white; /* Белый текст */
+    padding: 10px 20px; /* Внутренние отступы */
+    border-radius: 4px; /* Закругление углов */
+    text-decoration: none; /* Убираем подчёркивание текста */
+    font-weight: bold; /* Жирный текст */
+    transition: background-color 0.3s ease; /* Плавное изменение цвета при наведении */
+}
+
+.button-read-next:hover {
+    background-color: #1a5db0; /* Тёмно-синий цвет при наведении */
+}
+
+/* Отступы между элементами внутри поста */
+.post-container > *:not(:last-child) {
+    margin-bottom: 15px; /* Отступ между элементами, кроме последнего */
+}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Posts</title>
+    <link rel="stylesheet" href="/css/style-posts.css">
+</head>
+<body>
+
+<div class="main">
+    <div class="post-container" th:each="post : ${posts}">
+        <div class="post">
+
+            <div th:if="${authorsMap[post.authorId] != null}" th:with="author=${authorsMap[post.authorId]}">
+                <div class="avatar-container">
+                    <a th:href="@{/{person}(person=${author.username})}">
+                        <img class="avatar-in-post" th:src="@{${author.photosImagePath}}" alt="person avatar"/>
+                    </a>
+                    <a class="author-style" th:href="@{/{person}(person=${author.username})}" th:text="${author.username}"></a>
+                </div>
+            </div>
+            <div class="post-title">
+                <a th:href="@{/posts/{id}(id=${post.getId()})}" th:text="${post.getTitle()}"></a>
+            </div>
+
+            <div class="post-image">
+                <img th:src="@{/{image}(image=${post.getImagePath()})}" alt="Post picture"/>
+            </div>
+
+            <div class="button-container">
+                <a class="button-read-next" th:href="@{/posts/{id}(id=${post.getId()})}">
+                    <span>Read next</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

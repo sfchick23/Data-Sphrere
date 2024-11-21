@@ -25,13 +25,19 @@ public class PostController {
         return postService.findById(id);
     }
 
-    @GetMapping("person/{author}")
+    @GetMapping("publication/{author}")
     public List<Post> getPostsByPerson(@PathVariable("author") String author) {
         return postService.findAllByAuthor(author);
     }
 
+    @GetMapping
+    public List<Post> getAllPosts() {
+        return postService.findAll();
+    }
+
     @PostMapping
     public ResponseEntity<Post> createPost(@RequestBody Post post) {
+        System.out.println("Received content: " + post.getContent());
         postService.save(post);
         return ResponseEntity.status(HttpStatus.CREATED).body(post);
     }

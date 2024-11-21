@@ -23,9 +23,12 @@ public class Post {
     @Column(name = "content", nullable = false)
     private String content;
 
-    @Column(name = "image_path", nullable = true)
+    @Column(name = "image_path", nullable = false)
     private String imagePath;
 
     @Column(name = "author", nullable = false)
     private String author;
+
+    @Column(name = "author_id", nullable = false)
+    private int authorId;
 }

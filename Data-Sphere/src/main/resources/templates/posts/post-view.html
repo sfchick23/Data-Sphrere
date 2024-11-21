@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Post details</title>
+</head>
+<body>
+
+<a th:href="@{/{author}(author=${post.getAuthor()})}"
+   th:text="${post.author}">Posted by:</a>
+
+<h1 th:text="${post.title}">Post Title:</h1>
+<!--<p th:text="${post.content}">Content</p>-->
+
+<pre th:text="${post.content}"></pre>
+
+
+<div>
+    <img th:src="@{/{image}(image=${post.getImagePath()})}"
+         alt="Post Image" style="max-width: 100%;">
+</div>
+
+
+
+</body>
+</html>

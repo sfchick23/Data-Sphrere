@@ -26,6 +26,7 @@ public class MvcConfig implements WebMvcConfigurer {
                 .addResourceLocations("/css/");
 
         exposeDirectory("user-avatar", registry);
+        exposeDirectory("uploads", registry);
     }
 
     private void exposeDirectory(String dirName, ResourceHandlerRegistry registry) {

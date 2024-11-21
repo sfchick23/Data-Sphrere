@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Profile</title>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
+<div>
     <h1>Добро пожаловать, <span th:text="${username}">User</span>!</h1>
     <img class="profile-circle" th:src="@{${person.getPhotosImagePath()}}" alt="Profile Picture"/>
     <br/>
@@ -16,8 +17,13 @@
         <input type="submit" value="Logout"/>
     </form>
 
-    <form th:method="DELETE" th:action="@{/{username}(username=${person.getUsername()})}">
+    <a th:href="@{/posts/publication/{author}(author=${username})}">posts</a>
+    <a href="/posts/create">create post</a>
+    <hr/>
+
+    <form th:if="${#authentication.name == person.username}" th:method="DELETE" th:action="@{/{username}(username=${person.getUsername()})}">
         <input type="submit" value="Удалить"/>
     </form>
+</div>
 </body>
 </html>

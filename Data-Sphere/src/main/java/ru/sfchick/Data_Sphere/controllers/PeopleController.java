@@ -7,18 +7,20 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.sfchick.Data_Sphere.model.Person;
 import ru.sfchick.Data_Sphere.service.PeopleService;
+import ru.sfchick.Data_Sphere.service.PostService;
 
 import java.io.IOException;
-import java.util.Optional;
 
 @Controller
 public class PeopleController {
 
     private final PeopleService peopleService;
+    private final PostService postService;
 
     @Autowired
-    public PeopleController(PeopleService peopleService) {
+    public PeopleController(PeopleService peopleService, PostService postService) {
         this.peopleService = peopleService;
+        this.postService = postService;
     }
 
 
@@ -26,7 +28,6 @@ public class PeopleController {
     public String getUserProfile(@PathVariable("username") String username, Model model) {
         Person person = peopleService.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found: " + username));
-
         model.addAttribute("person", person);
         return "people/profile";
     }

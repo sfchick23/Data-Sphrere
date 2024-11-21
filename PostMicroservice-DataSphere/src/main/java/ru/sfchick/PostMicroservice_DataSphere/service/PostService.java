@@ -30,7 +30,15 @@ public class PostService {
         return postRepository.findAllByAuthor(author);
     }
 
+    public List<Post> findAll() {
+        return postRepository.findAll();
+    }
+
     public void save(Post post) {
+        if (post.getContent() != null) {
+            String processedContent = post.getContent().replace("<EOL>", "\n");
+            post.setContent(processedContent);
+        }
         postRepository.save(post);
     }
 
