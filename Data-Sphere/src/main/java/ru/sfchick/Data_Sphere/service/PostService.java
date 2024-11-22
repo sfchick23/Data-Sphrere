@@ -41,16 +41,6 @@ public class PostService {
         return response.getBody();
     }
 
-//    public List<PostDTO> getPosts() {
-//        ResponseEntity<List<PostDTO>> response = restTemplate.exchange(
-//                POST_SERVICE_URL,
-//                HttpMethod.GET,
-//                null,
-//                new ParameterizedTypeReference<>() {}
-//        );
-//        return response.getBody();
-//    }
-
     public List<PostDTO> getPosts() {
         try {
             ResponseEntity<List<PostDTO>> response = restTemplate.exchange(
@@ -88,6 +78,23 @@ public class PostService {
         PostDTO createdPost = restTemplate.postForObject(POST_SERVICE_URL, entity, PostDTO.class);
 
         return createdPost;
+    }
+
+    @Transactional
+    public void deletePost(int id) {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        CsrfToken csrf = (CsrfToken) request.getAttribute("_csrf");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        if (csrf != null) {
+            headers.set(csrf.getHeaderName(), csrf.getToken());
+        }
+
+        HttpEntity<PostDTO> entity = new HttpEntity<>(headers);
+
+        restTemplate.delete(POST_SERVICE_URL + "/delete/" + id, entity, PostDTO.class);
+
     }
 
 }

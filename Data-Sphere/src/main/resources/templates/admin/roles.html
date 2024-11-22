@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Manage Roles</title>
+</head>
+<body>
+<h1>Change Role for User: <span th:text="${person.username}"></span></h1>
+
+<div th:if="${person}">
+  <form th:method="PATCH" th:action="@{/admin/{id}/assignRole(id=${person.id})}">
+    <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+    <label for="role">Выберите роль</label>
+    <select th:field="*{person.role}" id="role">
+      <option th:each="role : ${roles}"
+              th:value="${role}"
+              th:text="${role}">
+      </option>
+    </select>
+    <input type="submit" value="Назначить роль"/>
+  </form>
+</div>
+
+
+<a href="/admin/panel">Back to panel</a>
+</body>
+</html>

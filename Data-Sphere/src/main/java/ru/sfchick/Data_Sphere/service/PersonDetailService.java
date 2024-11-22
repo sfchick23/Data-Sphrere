@@ -24,15 +24,12 @@ public class PersonDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("Trying to authenticate user: " + username); // Отладочный вывод
         Optional<Person> person = peopleRepository.findByUsername(username);
 
         if (person.isEmpty()) {
-            System.out.println("User not found: " + username); // Отладочный вывод
             throw new UsernameNotFoundException("User not found");
         }
 
-        System.out.println("User found: " + person.get().getUsername()); // Отладочный вывод
         return new PersonDetails(person.get());
 
     }

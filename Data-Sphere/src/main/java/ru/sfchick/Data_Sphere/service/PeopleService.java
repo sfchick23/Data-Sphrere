@@ -53,7 +53,7 @@ public class PeopleService {
     }
 
     @Transactional
-    public void update(Person person) {
+    public void save(Person person) {
         peopleRepository.save(person);
     }
 
@@ -71,5 +71,16 @@ public class PeopleService {
         person.setAvatar(person.getAvatar());
         System.out.println(person.getAvatar());
     }
+
+    @Transactional
+    public void updateRole(int id, String role) {
+        Person person = peopleRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Person not found"));
+
+        person.setRole(role);
+
+        peopleRepository.save(person);
+    }
+
 }
 

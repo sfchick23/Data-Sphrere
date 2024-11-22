@@ -3,8 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin Panel</title>
+    <link rel="stylesheet" href="/css/admin-panel.css">
 </head>
 <body>
-TODO create admin panel
+<h1>Админ панель</h1>
+
+<h2>Посты</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Заголовок</th>
+        <th>Автор</th>
+        <th>Удалить</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="post : ${posts}">
+        <td th:text="${post.title}"></td>
+        <td th:text="${post.author}"></td>
+        <td>
+            <form th:action="@{/admin/deletePosts/{id}(id=${post.id})}" th:method="DELETE">
+                <input type="submit" value="Удалить"/>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<h2>Пользователи</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Имя пользователя</th>
+        <th>Роль</th>
+        <th>Удалить</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="person : ${people}">
+        <td>
+            <a th:href="@{/admin/roles/{id}(id=${person.id})}" th:text="${person.username}"></a>
+        </td>
+        <td th:text="${person.role}"></td>
+        <td>
+            <form th:action="@{/admin/deletePerson/{id}(id=${person.id})}" th:method="DELETE">
+                <input type="submit" value="Удалить"/>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
 </body>
 </html>
