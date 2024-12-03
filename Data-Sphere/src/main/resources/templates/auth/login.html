@@ -4,28 +4,61 @@
     <meta charset="UTF-8">
     <title>login</title>
     <link rel="stylesheet" href="/css/styleLogin.css">
+
+
 </head>
 <body>
+<script src="/js/login.js"></script>
+<div class="container" id="container">
+    <!-- Форма регистрации -->
+    <div class="form-container sign-up-container">
+        <form th:action="@{/auth/registration}" method="post" th:object="${person}">
+            <h1>Create Account</h1>
+            <span>or use your email for registration</span>
+            <input type="text" th:field="*{username}" id="username"/>
+            <div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Error</div>
 
-<form name="f" method="post" action="/process_login">
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <input type="text" th:field="*{email}" id="email"/>
+            <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">email Error</div>
 
-    <div class="input-username">
-        <label for="username">Введите имя пользователя: </label>
-        <input type="text" name="username" id="username"/>
+            <input type="password" th:field="*{password}" id="password"/>
+            <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</div>
+            <button type="submit">Sign Up</button>
+        </form>
     </div>
-    <br/>
-    <label for="password">Введите пароль: </label>
-    <input type="password" name="password" id="password"/>
-    <br/>
-    <input type="submit" value="Login"/>
 
-    <div th:if="${param.error}" style="color: red">
-        Неправильные имя или пароль
+    <!-- Форма входа -->
+    <div class="form-container sign-in-container">
+        <form name="f" th:action="@{/process_login}" method="post">
+            <h1>Sign in</h1>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <span>or use your account</span>
+            <input type="text" placeholder="Username" name="username" required/>
+            <input type="password" placeholder="Password" name="password" required/>
+            <a href="#">Forgot your password?</a>
+            <button type="submit">Sign In</button>
+            <!-- Сообщение об ошибке -->
+            <div th:if="${param.error}" style="color: red; margin-top: 10px;">
+                Неправильные имя пользователя или пароль
+            </div>
+        </form>
     </div>
-</form>
-<form th:action="@{/auth/registration}">
-    <input type="submit" value="Registration"/>
-</form>
+
+    <!-- Оверлей для переключения -->
+    <div class="overlay-container">
+        <div class="overlay">
+            <div class="overlay-panel overlay-left">
+                <h1>Welcome Back!</h1>
+                <p>To keep connected with us please login with your personal info</p>
+                <button class="ghost" id="signIn">Sign In</button>
+            </div>
+            <div class="overlay-panel overlay-right">
+                <h1>Hello, Friend!</h1>
+                <p>Enter your personal data and enter the wonderful world of IT with us</p>
+                <button class="ghost" id="signUp">Sign Up</button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

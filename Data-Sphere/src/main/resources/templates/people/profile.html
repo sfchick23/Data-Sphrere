@@ -2,28 +2,127 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
-    <link rel="stylesheet" href="/css/styles.css">
+
+    <link rel="stylesheet" href="/css/style-profile.css">
+    <link rel="stylesheet" href="/css/button-style.css">
+
+    <script src="/js/avatarWrapper.js"></script>
+    <script src="/js/themeToggle.js"></script>
 </head>
 <body>
-<div>
-    <h1>Добро пожаловать, <span th:text="${username}">User</span>!</h1>
-    <img class="profile-circle" th:src="@{${person.getPhotosImagePath()}}" alt="Profile Picture"/>
-    <br/>
-    <p>Имя пользователя: <span th:text="${person.username}"></span></p>
-    <p>Email: <span th:text="${person.email}"></span></p>
+<div class="main">
+        <!-- Левая панель -->
+        <div class="left-sidebar">
+            <div class="avatar-wrapper">
+                <a href="" class="avatar-link">
+                    <img class="profile-circle" th:src="@{${personLogged.getPhotosImagePath()}}" alt="Profile Picture"/>
+                </a>
 
-    <form th:action="@{/auth/logout}" th:method="POST">
-        <input type="submit" value="Logout"/>
-    </form>
+                <div id="dropdown-menu" class="dropdown-menu hidden">
+                    <a th:href="@{/{username}(username=${personLogged.username})}" th:text="${personLogged.username}">profile</a>
+                    <p th:text="${personLogged.email}">email</p>
+                    <hr>
+                    <a href="settings/profile">Настройки</a>
+                    <a id="theme-toggle" href="">Сменить тему</a>
+                    <a href="#">Помощь</a>
+                    <a>
+                        <form th:action="@{/auth/logout}" th:method="POST">
+                            <input class="logout-button" type="submit" value="Выйти"/>
+                        </form>
+                    </a>
+                </div>
+            </div>
 
-    <a th:href="@{/posts/publication/{author}(author=${username})}">posts</a>
-    <a href="/posts/create">create post</a>
-    <hr/>
+            <!-- Ссылки на страницы -->
+            <ul class="nav-list">
+                <li><a th:href="@{/{username}(username=${personLogged.username})}">Профиль</a></li>
+                <li><a href="posts">Посты</a></li>
+                <li><a href="/pages/help">Помощь</a></li>
+            </ul>
+        </div>
 
-    <form th:if="${#authentication.name == person.username}" th:method="DELETE" th:action="@{/{username}(username=${person.getUsername()})}">
-        <input type="submit" value="Удалить"/>
-    </form>
+    <!-- Правая часть (контент) -->
+    <div class="container">
+        <div th:if="${person.username == personLogged.username}">
+            <h1 class="welcome-text">Добро пожаловать, <span th:text="${username}">User</span>!</h1>
+        </div>
+
+        <div class="profile">
+            <a href="/settings/edit-avatar" class="avatar-change">
+                <img class="profile-circle" th:src="@{${person.getPhotosImagePath()}}" alt="Profile Picture">
+            </a>
+
+            <p class="username-text">Имя пользователя: <span th:text="${person.username}"></span></p>
+            <p class="email-text">Email: <span th:text="${person.email}"></span></p>
+        </div>
+        <div class="links">
+            <div class="button-view-post">
+                <a th:href="@{/posts/publication/{author}(author=${personLogged.username})}"
+                   role="button">
+                    <span>YOUR POSTS</span>
+                </a>
+            </div>
+            <div class="button-setting">
+                <a href="settings/profile" role="button">
+                    <span>SETTINGS</span>
+                </a>
+            </div>
+        </div>
+
+        <hr/>
+
+        <div class="delete-button" th:if="${person == personLogged}">
+            <form th:method="DELETE" th:action="@{/{username}(username=${person.getUsername()})}">
+                <button type="submit">Удалить аккаунт</button>
+            </form>
+        </div>
+
+
+        <div class="content">
+            <div th:if="${#lists.isEmpty(posts)}">
+                <h1>Здесь будет ваш контент.</h1>
+                <p>Создайте свой первый пост</p>
+                <div class="other-buttons">
+                    <div class="button-create-post">
+                        <a href="/posts/create" role="button">
+                            <span>CREATE</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="post-container" th:each="post : ${posts}">
+                <div class="post">
+                    <div class="avatar-container">
+                        <a th:href="@{/{person}(person=${person.username})}">
+                            <img class="avatar-in-post" th:src="@{${person.getPhotosImagePath()}}"
+                                 alt="person avatar"/>
+                        </a>
+                        <a class="author-style" th:href="@{/{person}(person=${person.username})}"
+                           th:text="${person.username}"></a>
+                    </div>
+
+                    <div class="post-title">
+                        <a th:href="@{/posts/{id}(id=${post.getId()})}" th:text="${post.getTitle()}"></a>
+                    </div>
+
+                    <div th:if="${post.postType.name() != 'TEXT_ONLY'}">
+                        <div class="post-image">
+                            <img th:src="@{/{image}(image=${post.getImagePath()})}" alt="Post picture"/>
+                        </div>
+                    </div>
+
+                    <div class="button-container">
+                        <a class="button-read-next" th:href="@{/posts/{id}(id=${post.getId()})}">
+                            <span>Read next</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

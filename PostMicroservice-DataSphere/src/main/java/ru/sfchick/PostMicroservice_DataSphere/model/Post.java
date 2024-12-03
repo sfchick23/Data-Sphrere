@@ -20,10 +20,10 @@ public class Post {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "content", nullable = false)
+    @Column(name = "content", nullable = true)
     private String content;
 
-    @Column(name = "image_path", nullable = false)
+    @Column(name = "image_path", nullable = true)
     private String imagePath;
 
     @Column(name = "author", nullable = false)
@@ -31,4 +31,9 @@ public class Post {
 
     @Column(name = "author_id", nullable = false)
     private int authorId;
+
+    @Column(name = "post_type", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private PostType postType;
+
 }

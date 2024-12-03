@@ -12,15 +12,15 @@ import lombok.Setter;
 @Setter
 public class PersonDTO {
 
-    @NotEmpty(message = "Name should be not empty")
-    @Size(min = 2, max = 30, message = "name cannot be less than 2 or more than 30")
+//    @NotEmpty(message = "Name should be not empty")
+//    @Size(min = 2, max = 30, message = "name cannot be less than 2 or more than 30")
     private String username;
 
     @NotEmpty(message = "Email should be not empty")
     @Email(message = "email must have @email.com")
     private String email;
 
-    @NotEmpty(message = "Password should be not empty")
+//    @NotEmpty(message = "Password should be not empty")
     private String password;
 
     private String avatar;

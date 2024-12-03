@@ -1,23 +1,237 @@
+/* Общие стили */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: #e0e0e0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Светлая тема */
+body.light-theme {
+    background-color: #ffffff;
+    color: #000000;
+    .post-container {
+        background-color: #d7d7e1;
+    }
+    .post-title {
+        color: black;
+    }
+    
+    ul{
+        color: #000;
+    }
+
+}
+
+/* Тёмная тема */
+body.dark-theme {
+    background-color: #121212;
+    color: #e0e0e0;
+    .post-container{
+        background-color: #1c1c1e;
+    }
+    .post-title {
+        color: white;
+    }
+
+    ul{
+        color: #ffffff;
+    }
+}
+
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    min-height: 100vh;
+}
+
+.left-sidebar {
+    width: 150px;
+    flex-shrink: 0; /* Фиксированная ширина боковой панели */
+    padding: 30px;
+    border-right: 2px solid #555;
+    justify-content: center;
+}
+
+.avatar-link {
+    display: block;
+    width: fit-content;
+    margin-bottom: 20px;
+}
+
+.avatar-wrapper {
+    position: relative; /* Для абсолютного позиционирования меню */
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 120px; /* Расстояние от аватарки */
+    left: 0;
+    background-color: #333;
+    color: #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    width: 220px;
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 8px 0;
+    color: inherit;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.dropdown-menu a:hover {
+    background-color: #444;
+    border-radius: 4px;
+}
+
+.dropdown-menu hr {
+    border: 0;
+    height: 1px;
+    background-color: #555;
+    margin: 10px 0;
+}
+
+.hidden {
+    display: none;
+}
+
+
+.nav-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.nav-list li a {
+    padding: 10px 0;
+}
+
+.nav-list li:not(:last-child) {
+    margin-bottom: 15px;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 40px;
+    border-left: 2px solid #555;
+}
+
+.content h1 {
+    margin-top: 0;
+}
+
 .profile-circle {
     width: 100px;
     height: 100px;
     border-radius: 50%;
-    background-color: #007bff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
     font-size: 16px;
     text-decoration: none;
-    margin: 20px auto;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: transform 0.3s ease-in-out;
 }
 
 .profile-circle:hover {
-    background-color: #0056b3;
+    transform: scale(1.05);
 }
 
-.tex {
-    color: red;
+/* Стили для каждого поста */
+.post-container {
+    background-color: #1c1c1e; /* Тёмный фон блока поста */
+    border-radius: 8px; /* Закруглённые углы */
+    padding: 20px; /* Отступы внутри блока */
+    margin-bottom: 20px; /* Отступ между постами */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Тень для визуального разделения */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s;
+}
+
+.post-container:hover {
+    transform: scale(1.01);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* Аватарка и ник */
+.avatar-container {
+    display: flex; /* Горизонтальное выравнивание аватара и ника */
+    align-items: center; /* Центровка по вертикали */
+    gap: 10px; /* Расстояние между аватаром и ником */
+    margin-bottom: 15px; /* Отступ от заголовка */
+}
+
+.avatar-in-post {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; /* Круглый аватар */
+}
+
+/* Заголовок поста */
+.post-title {
+    font-size: 18px; /* Размер текста */
+    font-weight: bold; /* Жирный текст */
+    color: #ffffff; /* Белый текст */
+    text-decoration: none; /* Убираем подчёркивание */
+    margin-bottom: 15px; /* Отступ от изображения */
+    display: block; /* Заголовок занимает всю ширину */
+}
+
+.post-title:hover {
+    text-decoration: underline; /* Подчёркивание при наведении */
+}
+
+/* Картинка в посте */
+.post-image img {
+    max-width: 100%; /* Картинка занимает всю ширину блока */
+    height: 440px; /* Сохраняем пропорции */
+    border-radius: 4px; /* Лёгкое закругление углов */
+    margin-bottom: 15px; /* Отступ от кнопки */
+}
+
+.post-image{
+    display: flex;
+    justify-content: center;
+}
+
+/* Кнопка "Читать далее" */
+.button-container {
+    text-align: center; /* Центрирование кнопки */
+}
+
+.button-read-next {
+    display: inline-block;
+    background-color: #2d88ff; /* Синий фон кнопки */
+    color: white; /* Белый текст */
+    padding: 10px 20px; /* Внутренние отступы */
+    border-radius: 4px; /* Закругление углов */
+    text-decoration: none; /* Убираем подчёркивание текста */
+    font-weight: bold; /* Жирный текст */
+    transition: background-color 0.3s ease; /* Плавное изменение цвета при наведении */
+}
+
+.button-read-next:hover {
+    background-color: #1a5db0; /* Тёмно-синий цвет при наведении */
+}
+
+/* Отступы между элементами внутри поста */
+.post-container > *:not(:last-child) {
+    margin-bottom: 15px; /* Отступ между элементами, кроме последнего */
+}
+
+.logout-button {
+    background-color: rgba(255, 0, 30, 0.81);
+    color: white;
 }

@@ -10,17 +10,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ru.sfchick.Data_Sphere.config.SecurityConfig;
 import ru.sfchick.Data_Sphere.model.Person;
 import ru.sfchick.Data_Sphere.service.PeopleService;
+import ru.sfchick.Data_Sphere.service.PostService;
 
 @Controller
 public class PageController {
 
     private final SecurityConfig securityConfig;
     private final PeopleService peopleService;
+    private final PostService postService;
 
     @Autowired
-    public PageController(SecurityConfig securityConfig, PeopleService peopleService) {
+    public PageController(SecurityConfig securityConfig, PeopleService peopleService, PostService postService) {
         this.securityConfig = securityConfig;
         this.peopleService = peopleService;
+        this.postService = postService;
     }
 
     @GetMapping("/favicon.ico")
@@ -31,8 +34,8 @@ public class PageController {
     @GetMapping()
     public String index(Model model) {
         Person person = peopleService.findByUsername(securityConfig.getLoggedInUsername()).orElse(null);
-        model.addAttribute("username", securityConfig.getLoggedInUsername());
         model.addAttribute("person", person);
+        model.addAttribute("posts", postService.getPostsByAuthor(securityConfig.getLoggedInUsername()));
         return "index";
     }
 

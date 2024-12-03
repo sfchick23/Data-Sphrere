@@ -1,0 +1,372 @@
+/* Общие стили */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: #e0e0e0;
+    margin: 0;
+    padding: 0;
+}
+
+.main{
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    min-height: 100vh;
+
+}
+
+.profile {
+    display: flex; /* Включаем flexbox */
+    flex-direction: column; /* Располагаем элементы вертикально */
+    align-items: center; /* Центрируем все элементы по горизонтали */
+    justify-content: center; /* Центрируем по вертикали */
+    text-align: center; /* Для выравнивания текста внутри .profile */
+    padding: 20px; /* Немного отступа для визуального отделения */
+    position: relative;
+}
+
+.profile-circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    font-size: 16px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.profile-circle:hover {
+    transform: scale(1.05);
+}
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.logout-button {
+    background-color: rgba(255, 0, 30, 0.81);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.logout-button:hover {
+    background-color: #ff3333;
+}
+
+/* Левая панель */
+
+.left-sidebar {
+    width: 150px;
+    flex-shrink: 0; /* Фиксированная ширина боковой панели */
+    padding: 30px;
+    justify-content: center;
+    border-right: 2px solid #555;
+}
+
+.avatar-link {
+    display: block;
+    width: fit-content;
+    margin-bottom: 20px;
+}
+
+.avatar-wrapper {
+    position: relative; /* Для абсолютного позиционирования меню */
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 120px; /* Расстояние от аватарки */
+    left: 0;
+    background-color: #333;
+    color: #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    width: 220px;
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 8px 0;
+    color: inherit;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.dropdown-menu a:hover {
+    background-color: #444;
+    border-radius: 4px;
+}
+
+.dropdown-menu hr {
+    border: 0;
+    height: 1px;
+    background-color: #555;
+    margin: 10px 0;
+}
+
+.hidden {
+    display: none;
+}
+
+
+.nav-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.nav-list li a {
+    padding: 10px 0;
+}
+
+.nav-list li:not(:last-child) {
+    margin-bottom: 15px;
+}
+
+/* Правая часть */
+.container {
+    max-width: 1200px;
+    flex-grow: 1;
+    padding: 40px;
+    border-left: 2px solid #555;
+}
+
+.welcome-text {
+    font-size: 28px;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.username-text, .email-text {
+    font-size: 18px;
+    margin: 10px 0;
+    text-align: center;
+}
+
+/* Кнопки */
+button, a.button {
+    display: inline-block;
+    background-color: red;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+button:hover, a.button:hover {
+    background-color: #ff4d4d;
+}
+
+.delete-button {
+    display: flex;
+    justify-content: center;
+}
+
+.post-container{
+    margin-bottom: 20px;
+}
+
+.post {
+    background-color: #1e1e1e;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s;
+}
+
+.post:hover {
+    transform: scale(1.01);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+}
+
+.post-title a {
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffffff;
+    text-decoration: none;
+    margin-bottom: 15px;
+}
+
+.post-title a:hover {
+    text-decoration: underline;
+}
+
+.avatar-in-post {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; /* Круглый аватар */
+}
+
+.post-image img {
+    max-width: 100%; /* Картинка занимает всю ширину блока */
+    height: 300px; /* Сохраняем пропорции */
+    border-radius: 4px; /* Лёгкое закругление углов */
+    margin-bottom: 15px; /* Отступ от кнопки */
+}
+
+.post-image{
+    display: flex;
+    justify-content: center;
+}
+
+.button-container {
+    text-align: center;
+}
+
+.button-read-next {
+    display: inline-block;
+    background-color: #2d88ff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.button-read-next:hover {
+    background-color: #1a5db0;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 40px;
+}
+
+.content h1 {
+    margin-top: 0;
+}
+
+
+/* Аватарка и ник */
+.avatar-container {
+    display: flex; /* Горизонтальное выравнивание аватара и ника */
+    align-items: center; /* Центровка по вертикали */
+    gap: 10px; /* Расстояние между аватаром и ником */
+    margin-bottom: 15px; /* Отступ от заголовка */
+}
+
+.avatar-in-post {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; /* Круглый аватар */
+}
+
+/* Заголовок поста */
+.post-title {
+    font-size: 18px; /* Размер текста */
+    font-weight: bold; /* Жирный текст */
+    color: #ffffff; /* Белый текст */
+    text-decoration: none; /* Убираем подчёркивание */
+    margin-bottom: 15px; /* Отступ от изображения */
+    display: block; /* Заголовок занимает всю ширину */
+}
+
+.post-title:hover {
+    text-decoration: underline; /* Подчёркивание при наведении */
+}
+
+/* Картинка в посте */
+.post-image img {
+    max-width: 100%; /* Картинка занимает всю ширину блока */
+    height: 300px; /* Сохраняем пропорции */
+    border-radius: 4px; /* Лёгкое закругление углов */
+    margin-bottom: 15px; /* Отступ от кнопки */
+}
+
+/* Кнопка "Читать далее" */
+.button-container {
+    text-align: center; /* Центрирование кнопки */
+}
+
+.button-read-next {
+    display: inline-block;
+    background-color: #2d88ff; /* Синий фон кнопки */
+    color: white; /* Белый текст */
+    padding: 10px 20px; /* Внутренние отступы */
+    border-radius: 4px; /* Закругление углов */
+    text-decoration: none; /* Убираем подчёркивание текста */
+    font-weight: bold; /* Жирный текст */
+    transition: background-color 0.3s ease; /* Плавное изменение цвета при наведении */
+}
+
+.button-read-next:hover {
+    background-color: #1a5db0; /* Тёмно-синий цвет при наведении */
+}
+
+/* Отступы между элементами внутри поста */
+.post-container > *:not(:last-child) {
+    margin-bottom: 15px; /* Отступ между элементами, кроме последнего */
+}
+
+
+/* Контейнер для аватара */
+.avatar-change {
+    position: relative; /* Для работы псевдоэлементов */
+    display: inline-block; /* Соответствие размерам контента */
+    width: 100px; /* Фиксируем ширину */
+    height: 100px; /* Фиксируем высоту (должно совпадать с шириной) */
+    border-radius: 50%; /* Круглый контейнер */
+    overflow: hidden; /* Обрезаем всё, что вылезает за границы */
+    cursor: pointer; /* Меняем курсор */
+}
+
+/* Картинка внутри аватара */
+.avatar-change .profile-circle {
+    width: 100%; /* Заполняет контейнер */
+    height: 100%; /* Заполняет контейнер */
+    object-fit: cover; /* Центрируем изображение */
+    display: block;
+}
+
+/* Затемнение при наведении */
+.avatar-change::before {
+    content: ''; /* Для отображения затемнения */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%; /* Совпадает с контейнером */
+    height: 100%; /* Совпадает с контейнером */
+    border-radius: 50%; /* Закругление */
+    background: rgba(0, 0, 0, 0.5); /* Тёмный фильтр */
+    opacity: 0; /* Изначально скрыто */
+    transition: opacity 0.3s ease; /* Плавное появление */
+    z-index: 1;
+}
+
+/* Иконка "+" */
+.avatar-change::after {
+    content: '+'; /* Иконка */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Центрируем */
+    font-size: 24px; /* Размер текста */
+    color: white; /* Цвет иконки */
+    opacity: 0; /* Изначально скрыта */
+    transition: opacity 0.3s ease; /* Плавное появление */
+    z-index: 2;
+}
+
+/* Эффекты при наведении */
+.avatar-change:hover::before {
+    opacity: 1; /* Показать затемнение */
+}
+
+.avatar-change:hover::after {
+    opacity: 1; /* Показать иконку */
+}

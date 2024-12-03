@@ -25,6 +25,7 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/static/css/**")
                 .addResourceLocations("/css/");
 
+
         exposeDirectory("user-avatar", registry);
         exposeDirectory("uploads", registry);
     }

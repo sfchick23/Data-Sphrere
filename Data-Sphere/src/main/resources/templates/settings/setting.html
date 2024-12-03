@@ -3,9 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="/js/avatarWrapper.js"></script>
+    <script src="/js/themeToggle.js"></script>
 </head>
 <body>
+<div class="main">
+    <div class="container">
+        <div class="left-sidebar">
+            <div class="avatar-wrapper">
+                <a href="" class="avatar-link">
+                    <img class="profile-circle" th:src="@{${person.getPhotosImagePath()}}" alt="Profile Picture"/>
+                </a>
 
-<a href="settings/edit">edit</a>
+                <div id="dropdown-menu" class="dropdown-menu hidden">
+                    <a th:href="@{/{username}(username=${person.username})}" th:text="${person.username}">profile</a>
+                    <p th:text="${person.email}">email</p>
+                    <hr>
+                    <a href="/settings/profile">Настройки</a>
+                    <a id="theme-toggle" href="">Сменить тему</a>
+                    <a href="#">Помощь</a>
+                    <a>
+                        <form th:action="@{/auth/logout}" th:method="POST">
+                            <input class="logout-button" type="submit" value="Выйти"/>
+                        </form>
+                    </a>
+                </div>
+            </div>
+
+
+            <!-- Ссылки на страницы -->
+            <ul class="nav-list">
+                <li><a th:href="@{/{username}(username=${person.username})}">Профиль</a></li>
+                <li><a href="/posts">Посты</a></li>
+                <li><a href="/pages/help">Помощь</a></li>
+            </ul>
+        </div>
+
+        <div class="content">
+            <h2>Редактировать профиль</h2>
+            <form th:method="PATCH" th:action="@{/settings/profile}" th:object="${person}">
+                <input type="hidden" th:field="*{id}" />
+
+                <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">email error</div>
+                <label for="email">Введите новую почту:</label>
+                <input type="text" th:field="*{email}" id="email" required/>
+                <br>
+
+                <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password error</div>
+                <label for="password">Введите новый пароль:</label>
+                <input type="password" id="password" th:field="*{password}" required/>
+                <br>
+
+                <input type="submit" value="Обновить!"/>
+            </form>
+        </div>
+
+    </div>
+</div>
 </body>
 </html>

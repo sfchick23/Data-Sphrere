@@ -1,8 +1,11 @@
 package ru.sfchick.Data_Sphere.service;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.*;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Service;
@@ -12,6 +15,10 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import ru.sfchick.Data_Sphere.dto.PostDTO;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @Service
@@ -81,7 +88,9 @@ public class PostService {
     }
 
     @Transactional
-    public void deletePost(int id) {
+    public void deletePost(int id) throws IOException {
+        File dirPath = new File("uploads/" + getPostById(id).getTitle());
+
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         CsrfToken csrf = (CsrfToken) request.getAttribute("_csrf");
 
@@ -95,6 +104,34 @@ public class PostService {
 
         restTemplate.delete(POST_SERVICE_URL + "/delete/" + id, entity, PostDTO.class);
 
+
+        if (dirPath.exists()) {
+            FileUtils.deleteDirectory(dirPath);
+        }
+
+    }
+
+
+    public ResponseEntity<Resource> downloadImage(int id) throws IOException {
+        try {
+            // Получаем путь к изображению, которое хранится в посте
+            PostDTO post = getPostById(id);
+            String imagePath = post.getImagePath();
+
+            Path path = Paths.get(imagePath).toAbsolutePath().normalize();
+            Resource resource = new UrlResource(path.toUri());
+
+            if (!resource.exists()) {
+                throw new RuntimeException("Фото не найдено!");
+            }
+
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                    .body(resource);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
 }

@@ -2,23 +2,92 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Create post</title>
+    <title>Create Post</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/styles-form.css">
+
+    <script src="/js/avatarWrapper.js"></script>
+    <script src="/js/themeToggle.js"></script>
+    <script src="/js/toggleContentField.js"></script>
+    <script src="/js/previewImage.js" defer></script>
+
 </head>
 <body>
-<h1>Create a New Post</h1>
-<form action="/posts/create" method="post" enctype="multipart/form-data">
-  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-  <label for="title">Title:</label>
-  <input type="text" id="title" name="title" required>
-  <br>
-  <label for="content">Content:</label>
-  <textarea id="content" name="content" rows="4" cols="50" required></textarea>
-  <br>
-  <label for="file">Image:</label>
-  <input type="file" id="file" name="file">
-  <br>
-  <button type="submit">Create Post</button>
-</form>
+<div class="main">
+    <div class="container">
+        <div class="left-sidebar">
+            <div class="avatar-wrapper">
+                <a href="" class="avatar-link">
+                    <img class="profile-circle" th:src="@{${personLogged.getPhotosImagePath()}}" alt="Profile Picture"/>
+                </a>
 
+                <div id="dropdown-menu" class="dropdown-menu hidden">
+                    <a th:href="@{/{username}(username=${personLogged.username})}" th:text="${personLogged.username}">profile</a>
+                    <p th:text="${personLogged.email}">email</p>
+                    <hr>
+                    <a href="settings/profile">Настройки</a>
+                    <a id="theme-toggle" href="">Сменить тему</a>
+                    <a href="#">Помощь</a>
+                    <a>
+                        <form th:action="@{/auth/logout}" th:method="POST">
+                            <input class="logout-button" type="submit" value="Выйти"/>
+                        </form>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Ссылки на страницы -->
+            <ul class="nav-list">
+                <li><a th:href="@{/{username}(username=${personLogged.username})}">Профиль</a></li>
+                <li><a href="/posts">Посты</a></li>
+                <li><a href="/pages/help">Помощь</a></li>
+            </ul>
+        </div>
+
+        <div class="content">
+            <div class="post-container">
+                <h1 class="form-title">Create a New Post</h1>
+                <form action="/posts/create" method="post" enctype="multipart/form-data" class="create-post-form">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+                    <div class="form-group">
+                        <label for="title" class="form-label">Title:</label>
+                        <input type="text" id="title" name="title" class="form-input" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="toggleContent" class="form-label">Add Content:</label>
+                        <input type="checkbox" id="toggleContent" class="form-checkbox" onclick="toggleContentField()" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="content" class="form-label">Content:</label>
+                        <textarea id="content" name="content" rows="4" cols="50" class="form-textarea" disabled></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <div id="preview-container">
+                            <div class="image-wrapper">
+                                <label for="file" class="file-label">Добавьте обложку</label>
+                                <input type="file" id="file" name="file" class="form-input-file" accept="image/*" onchange="previewImage(event)" />
+                                <button id="delete-file-btn" class="hidden">Удалить файл</button>
+                                <img id="image-preview" alt="Image Preview" class="hidden" />
+                                <div class="upload-text">
+                                    <p>Перенесите сюда файл (jpg, gif, png) размером 780x440 или нажмите</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <button type="submit" class="form-submit-button">Create Post</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

@@ -1,0 +1,53 @@
+/* Общие стили для всего блока */
+.links, .button-create-post, .other-buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+    padding: 10px;
+    cursor: pointer; /* Указатель курсора для всего блока */
+}
+
+/* Стили для кнопки */
+.button-view-post, .button-create-post, .button-setting {
+    background-color: #333; /* темный фон кнопки */
+    border: 2px solid #444; /* граница чуть светлее */
+    border-radius: 8px; /* скругление углов */
+    padding: 12px 30px; /* внутренние отступы */
+    transition: all 0.3s ease; /* плавные переходы */
+    position: relative; /* позиционирование для абсолютного позиционирования дочерних элементов */
+}
+
+/* Стили для самой ссылки */
+.button-view-post a, .button-create-post a, .button-setting a {
+    color: #fff; /* белый цвет текста */
+    font-size: 16px; /* размер шрифта */
+    text-decoration: none; /* без подчеркивания */
+    font-weight: bold; /* жирный шрифт */
+    text-transform: uppercase; /* все буквы заглавные */
+    display: block; /* блоковый элемент, чтобы вся площадь текста была кликабельной */
+    z-index: 1; /* текст поверх фона */
+}
+
+/* Эффект при наведении на саму кнопку */
+.button-view-post:hover, .button-create-post:hover, .button-setting:hover{
+    background-color: #444; /* цвет фона меняется на более светлый */
+    border-color: #666; /* цвет границы меняется */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* тень для кнопки */
+}
+
+/* Эффекты для текста при наведении */
+.button-view-post a:hover, .button-create-post a:hover, .button-setting a:hover{
+    color: #e6e6e6; /* цвет текста меняется на светлый при наведении */
+}
+
+/* Для устройства с маленьким экраном (например, смартфоны) */
+@media (max-width: 768px) {
+    .button-view-post, .button-create-post, .button-setting{
+        padding: 10px 20px; /* уменьшение отступов на мобильных устройствах */
+    }
+
+    .button-view-post a, .button-create-post a, .button-setting a{
+        font-size: 14px; /* уменьшение шрифта на мобильных */
+    }
+}

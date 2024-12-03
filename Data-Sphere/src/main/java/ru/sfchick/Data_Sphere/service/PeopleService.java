@@ -34,6 +34,10 @@ public class PeopleService {
         return peopleRepository.findByUsername(username);
     }
 
+    public Optional<Person> findByEmail(String email) {
+        return peopleRepository.findByEmail(email);
+    }
+
     public Person findById(int id) {
         return peopleRepository.findById(id).orElse(null);
     }
@@ -67,9 +71,31 @@ public class PeopleService {
     }
 
     @Transactional
+    public void update(Person person) {
+        System.out.println("Updating person: " + person);
+        peopleRepository.save(person);
+        System.out.println("Person updated: " + person);
+    }
+
+    @Transactional
+    public void updateProfile(Person updatePerson) {
+        System.out.println("Person to updated: " + updatePerson);
+        Person person = findById(updatePerson.getId());
+        person.setEmail(updatePerson.getEmail());
+
+        // Если новый пароль не пустой, обновляем его
+        if (updatePerson.getPassword() != null && !updatePerson.getPassword().isEmpty()) {
+            person.setPassword(passwordEncoder.encode(updatePerson.getPassword()));
+        }
+
+        peopleRepository.save(person);
+        System.out.println("Person updated: " + person);
+    }
+
+
+    @Transactional
     public void updateAvatar(Person person) {
         person.setAvatar(person.getAvatar());
-        System.out.println(person.getAvatar());
     }
 
     @Transactional

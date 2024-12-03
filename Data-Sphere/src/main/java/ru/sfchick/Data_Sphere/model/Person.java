@@ -39,15 +39,11 @@ public class Person {
 
     @Column(name = "avatar", nullable = true)
     private String avatar;
-
     @Transient
     public String getPhotosImagePath() {
-        if (avatar.equals("default")) {
-            return "user-avatar/default/default-avatar.jpg";
+        if (avatar == null || avatar.isEmpty() || avatar.equals("default")) {
+            return "/user-avatar/default/default-avatar.jpg";
         }
-
-        if (avatar == null || id == 0) return null;
-
         return "/user-avatar/" + id + "/" + avatar;
     }
 

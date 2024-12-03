@@ -20,4 +20,6 @@ public class PostDTO {
     private String author;
 
     private int authorId;
+
+    private PostType postType;
 }

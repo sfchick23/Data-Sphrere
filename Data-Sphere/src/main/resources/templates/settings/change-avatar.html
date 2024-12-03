@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title>Edit Profile</title>
     <link rel="stylesheet" href="/css/styles.css">
+
     <script src="/js/avatarWrapper.js"></script>
     <script src="/js/themeToggle.js"></script>
 </head>
@@ -41,36 +42,17 @@
         </div>
 
         <div class="content">
-            <h1>Добро пожаловать!</h1>
-            <div th:if="${#lists.isEmpty(posts)}">
-                <p>Здесь будет ваш контент.</p>
+            <h1>Редактирование вашей аватарки</h1>
+            <div class="avatar-container">
+                <form th:action="@{/settings/edit}" th:object="${person}" method="post" enctype="multipart/form-data">
+                    <div>
+                        <input type="file" name="image" accept="image/png, image/jpeg"/>
+                    </div>
+
+                    <button type="submit">Save Changes</button>
+                </form>
             </div>
-            <div class="post-container" th:each="post : ${posts}">
-                <div class="post">
-                    <div class="avatar-container">
-                        <a th:href="@{/{person}(person=${person.username})}">
-                            <img class="avatar-in-post" th:src="@{${person.getPhotosImagePath()}}" alt="person avatar"/>
-                        </a>
-                        <a class="author-style" th:href="@{/{person}(person=${person.username})}" th:text="${person.username}"></a>
-                    </div>
 
-                    <div class="post-title">
-                        <a th:href="@{/posts/{id}(id=${post.getId()})}" th:text="${post.getTitle()}"></a>
-                    </div>
-
-                    <div th:if="${post.postType.name() != 'TEXT_ONLY'}">
-                        <div class="post-image">
-                            <img th:src="@{/{image}(image=${post.getImagePath()})}" alt="Post picture"/>
-                        </div>
-                    </div>
-
-                    <div class="button-container">
-                        <a class="button-read-next" th:href="@{/posts/{id}(id=${post.getId()})}">
-                            <span>Read next</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>

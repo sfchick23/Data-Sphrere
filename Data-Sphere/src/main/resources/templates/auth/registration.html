@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en", xmlns:th="http://thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Registration</title>
@@ -12,8 +12,7 @@
     <br/>
     <label for="email">Введите Email: </label>
     <input type="text" th:field="*{email}" id="email"/>
-    <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">email Error
-    </div>
+    <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">email Error</div>
     <br/>
     <label for="password">Введите пароль: </label>
     <input type="password" th:field="*{password}" id="password"/>

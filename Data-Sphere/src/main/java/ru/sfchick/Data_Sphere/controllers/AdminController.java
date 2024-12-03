@@ -55,7 +55,7 @@ public class AdminController {
 
 
     @DeleteMapping("/deletePosts/{id}")
-    public String deletePost(@PathVariable("id") int id) {
+    public String deletePost(@PathVariable("id") int id) throws IOException {
         postService.deletePost(id);
         return "redirect:/admin/panel";
     }

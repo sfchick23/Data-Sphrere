@@ -3,24 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <title>Post details</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/style-view.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+
+    <script src="/js/avatarWrapper.js"></script>
+    <script src="/js/themeToggle.js"></script>
 </head>
 <body>
+<div class="main">
+    <div class="container">
+        <!-- Левая панель -->
+        <div class="left-sidebar">
+            <div class="avatar-wrapper">
+                <a href="" class="avatar-link">
+                    <img class="profile-circle" th:src="@{${personLogged.getPhotosImagePath()}}"
+                         alt="Profile Picture"/>
+                </a>
 
-<a th:href="@{/{author}(author=${post.getAuthor()})}"
-   th:text="${post.author}">Posted by:</a>
+                <div id="dropdown-menu" class="dropdown-menu hidden">
+                    <a th:href="@{/{username}(username=${personLogged.username})}"
+                       th:text="${personLogged.username}">profile</a>
+                    <p th:text="${personLogged.email}">email</p>
+                    <hr>
+                    <a href="settings/profile">Настройки</a>
+                    <a id="theme-toggle" href="">Сменить тему</a>
+                    <a href="#">Помощь</a>
+                    <a>
+                        <form th:action="@{/auth/logout}" th:method="POST">
+                            <input class="logout-button" type="submit" value="Выйти"/>
+                        </form>
+                    </a>
+                </div>
+            </div>
 
-<h1 th:text="${post.title}">Post Title:</h1>
-<!--<p th:text="${post.content}">Content</p>-->
+            <!-- Ссылки на страницы -->
+            <ul class="nav-list">
+                <li><a th:href="@{/{username}(username=${personLogged.username})}">Профиль</a></li>
+                <li><a href="/posts">Посты</a></li>
+                <li><a href="/pages/help">Помощь</a></li>
+            </ul>
+        </div>
 
-<pre th:text="${post.content}"></pre>
+        <div class="content">
+            <div class="post-container">
+                <div class="post">
+                    <div class="avatar-container">
+                        <img class="avatar-in-post" th:src="@{${person.getPhotosImagePath()}}"
+                             alt="Profile Picture"/>
+                        <a th:href="@{/{author}(author=${post.getAuthor()})}"
+                           th:text="${post.author}">Posted by:</a>
+                    </div>
+
+                    <div class="post-title">
+                        <h1 th:text="${post.title}">Post Title:</h1>
+                    </div>
+
+                    <div class="post-content">
+                        <pre th:text="${post.content}"></pre>
+                    </div>
+
+                    <div th:if="${post.postType.name() != 'TEXT_ONLY'}">
+                        <div class="post-image">
+                            <img class="img-container" th:src="@{/{image}(image=${post.getImagePath()})}" alt="Post Image">
+                        </div>
+                    </div>
 
 
-<div>
-    <img th:src="@{/{image}(image=${post.getImagePath()})}"
-         alt="Post Image" style="max-width: 100%;">
+                    <div th:if="${post.postType.name() == 'IMAGE_ONLY'}">
+                        <form method="GET" th:action="@{/posts/download/{id}(id=${post.id})}">
+                            <button type="submit" id="downloadButton" class="btn btn-primary">
+                                Скачать Фото
+                            </button>
+                        </form>
+                    </div>
+
+
+                    <div class="delete-post" th:if="${post.authorId == personLogged.id}">
+                        <form th:method="DELETE" th:action="@{/posts/delete/{id}(id=${post.id})}">
+                            <button type="submit">Удалить пост</button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-
-
 </body>
 </html>
