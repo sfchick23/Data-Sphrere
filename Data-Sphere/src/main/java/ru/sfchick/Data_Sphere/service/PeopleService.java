@@ -3,16 +3,23 @@ package ru.sfchick.Data_Sphere.service;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import ru.sfchick.Data_Sphere.model.Person;
+import ru.sfchick.Data_Sphere.model.Verification;
 import ru.sfchick.Data_Sphere.repositories.PeopleRepository;
+import ru.sfchick.Data_Sphere.repositories.VerificationCodeRepository;
+import ru.sfchick.Data_Sphere.security.PersonDetails;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -23,11 +30,13 @@ public class PeopleService {
 
     private final PeopleRepository peopleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final VerificationCodeRepository verificationCodeRepository;
 
     @Autowired
-    public PeopleService(PeopleRepository peopleRepository, PasswordEncoder passwordEncoder) {
+    public PeopleService(PeopleRepository peopleRepository, PasswordEncoder passwordEncoder, VerificationCodeRepository verificationCodeRepository) {
         this.peopleRepository = peopleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.verificationCodeRepository = verificationCodeRepository;
     }
 
     public Optional<Person> findByUsername(String username) {
@@ -107,6 +116,13 @@ public class PeopleService {
 
         peopleRepository.save(person);
     }
+
+    @Transactional
+    public void savePendingRegistration(Person person, String verificationCode) {
+        verificationCodeRepository.save(new Verification(person.getEmail(), verificationCode, LocalDateTime.now().plusMinutes(15)));
+    }
+
+
 
 }
 

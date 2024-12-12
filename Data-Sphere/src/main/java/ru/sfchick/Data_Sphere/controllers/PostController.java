@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -17,12 +18,12 @@ import ru.sfchick.Data_Sphere.service.PeopleService;
 import ru.sfchick.Data_Sphere.service.PostService;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -75,6 +76,30 @@ public class PostController {
         }
     }
 
+    @GetMapping("/search")
+    public String search(@RequestParam(required = false) String query, Model model) {
+        List<PostDTO> posts = postService.searchPostsByTitle(query);
+        List<Person> people = peopleService.findAll();
+
+        Map<Integer, Person> authorsMap = people.stream()
+                .collect(Collectors.toMap(Person::getId, person -> person));
+        Person personLogged = peopleService.findByUsername(securityConfig.getLoggedInUsername())
+                .orElseThrow(() -> new RuntimeException("Person not found"));
+
+        if (posts.isEmpty()) {
+            model.addAttribute("message", "No posts found");
+        } else {
+            model.addAttribute("authorsMap", authorsMap);
+            model.addAttribute("posts", posts);
+        }
+
+
+        model.addAttribute("personLogged", personLogged);
+
+        return "posts/search";
+    }
+
+
     @GetMapping("/publication/{author}")
     public String getPostsPerson(@PathVariable("author") String author, Model model) {
         Person person = peopleService.findByUsername(author)
@@ -83,13 +108,44 @@ public class PostController {
         Person personLogged =  peopleService.findByUsername(securityConfig.getLoggedInUsername())
                 .orElseThrow(() -> new RuntimeException("Person not found"));
 
+
         model.addAttribute("posts", postService.getPostsByAuthor(author));
         model.addAttribute("person", person);
         model.addAttribute("personLogged", personLogged);
         return "posts/posts-view-by-author";
     }
 
+    @GetMapping("/publication/{author}/private")
+    public String getPrivatePostsPerson(@PathVariable("author") String author, Model model) {
+        Person person = peopleService.findByUsername(author)
+                .orElseThrow(() -> new RuntimeException("Person not found"));
 
+        Person personLogged =  peopleService.findByUsername(securityConfig.getLoggedInUsername())
+                .orElseThrow(() -> new RuntimeException("Person not found"));
+
+        model.addAttribute("posts", postService.getPrivatePostsByAuthor(author));
+        model.addAttribute("person", person);
+        model.addAttribute("personLogged", personLogged);
+        return "posts/posts-view-by-author";
+    }
+
+    @GetMapping("/publication/{author}/public")
+    public String getPublicPostsPerson(@PathVariable("author") String author, Model model) {
+        Person person = peopleService.findByUsername(author)
+                .orElseThrow(() -> new RuntimeException("Person not found"));
+
+        Person personLogged =  peopleService.findByUsername(securityConfig.getLoggedInUsername())
+                .orElseThrow(() -> new RuntimeException("Person not found"));
+
+        model.addAttribute("posts", postService.getPublicPostsByAuthor(author));
+        model.addAttribute("person", person);
+        model.addAttribute("personLogged", personLogged);
+        return "posts/posts-view-by-author";
+    }
+
+
+
+    @PreAuthorize("@personAccessHandler.isVerified(authentication)")
     @GetMapping("/create")
     public String createPostForm(Model model) {
         Person personLogged =  peopleService.findByUsername(securityConfig.getLoggedInUsername())
@@ -114,12 +170,32 @@ public class PostController {
         post.setAuthorId(peopleService.findByUsername(usernameAuth)
                 .orElseThrow(() -> new RuntimeException("User not found")).getId());
 
-
         if (!file.isEmpty()) {
             String uploadDir = "uploads/" + post.getTitle();
             String fileName = file.getOriginalFilename();
+            String mimeType;
 
-            try {
+            try (InputStream inputStream = file.getInputStream()) {
+                mimeType = Files.probeContentType(Paths.get(file.getOriginalFilename()));
+                if (mimeType == null) {
+                    mimeType = URLConnection.guessContentTypeFromStream(inputStream);
+                }
+
+                // Разрешенные MIME-типы
+                List<String> allowedMimeTypes = Arrays.asList("image/png", "image/jpeg", "image/gif");
+
+                if (!allowedMimeTypes.contains(mimeType)) {
+                    throw new IllegalArgumentException("Unsupported file type: " + mimeType);
+                }
+
+                // Проверка расширения файла для дополнительной безопасности
+                String fileExtension = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase();
+                List<String> allowedExtensions = Arrays.asList("png", "jpg", "jpeg", "gif");
+
+                if (!allowedExtensions.contains(fileExtension)) {
+                    throw new IllegalArgumentException("Unsupported file extension: " + fileExtension);
+                }
+
                 Path uploadPath = Paths.get(uploadDir);
                 Files.createDirectories(uploadPath);
 
@@ -138,6 +214,8 @@ public class PostController {
         } else {
             post.setPostType(PostType.TEXT_ONLY);
         }
+
+        System.out.println(post);
 
         PostDTO createdPost = postService.createPost(post);
 

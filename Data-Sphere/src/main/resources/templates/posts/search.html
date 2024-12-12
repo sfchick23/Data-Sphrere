@@ -2,14 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Posts</title>
+    <title>Title</title>
     <link rel="stylesheet" href="/css/style-posts.css">
     <link rel="stylesheet" href="/css/styles.css">
-    <link rel="stylesheet" href="/css/button-style.css">
 
     <script src="/js/avatarWrapper.js"></script>
     <script src="/js/themeToggle.js"></script>
-
 </head>
 <body>
 
@@ -43,7 +41,7 @@
             <ul class="nav-list">
                 <li><a th:href="@{/{username}(username=${personLogged.username})}">Профиль</a></li>
                 <li><a href="/">Лента</a></li>
-                <li><a href="posts">Посты</a></li>
+                <li><a href="/posts">Посты</a></li>
                 <li><a href="/pages/help">Помощь</a></li>
             </ul>
         </div>
@@ -56,6 +54,14 @@
                 </form>
             </div>
 
+            <div class="search-error" th:if="${message}">
+                <div class="image-error">
+                    <img src="/images/warning.png" style="width: 200px; height: 200px" alt="image error"/>
+                </div>
+                <div class="text-error">
+                    <p th:text="${message}"></p>
+                </div>
+            </div>
 
             <div class="post-container" th:each="post : ${posts}">
                 <div class="post">
@@ -86,26 +92,7 @@
                 </div>
             </div>
         </div>
-        <div class="right-sidebar">
-            <div class="button-create-post" th:if="${personLogged.isVerified()}">
-                <a href="/posts/create" role="button">
-                    <span>CREATE</span>
-                </a>
-            </div>
-            <div class="verification-message" th:if="${!personLogged.isVerified()}">
-                <div class="verification-icon">
-                    <img src="/images/warning.png" alt="Warning Icon">
-                </div>
-                <div class="verification-text">
-                    <p>Чтобы создавать посты, подтвердите свою учетную запись.</p>
-                    <form th:action="@{'/' + ${personLogged.username} + '/send-verification'}" method="post">
-                        <button class="verify-button" type="submit">Отправить код подтверждения</button>
-                    </form>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
-
 </body>
 </html>

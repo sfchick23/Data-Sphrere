@@ -38,6 +38,7 @@
             <!-- Ссылки на страницы -->
             <ul class="nav-list">
                 <li><a th:href="@{/{username}(username=${personLogged.username})}">Профиль</a></li>
+                <li><a href="/">Лента</a></li>
                 <li><a href="posts">Посты</a></li>
                 <li><a href="/pages/help">Помощь</a></li>
             </ul>
@@ -73,24 +74,32 @@
 
         <hr/>
 
-        <div class="delete-button" th:if="${person == personLogged}">
-            <form th:method="DELETE" th:action="@{/{username}(username=${person.getUsername()})}">
-                <button type="submit">Удалить аккаунт</button>
-            </form>
+        <div class="verification-message" th:if="${!personLogged.isVerified()}">
+            <div class="verification-icon">
+                <img src="/images/warning.png" alt="Warning Icon">
+            </div>
+            <div class="verification-text">
+                <p>Чтобы создать пост, вам нужно пройти верификацию.</p>
+                <form th:action="@{'/' + ${personLogged.username} + '/send-verification'}" method="post">
+                    <button class="verify-button" type="submit">Отправить код подтверждения</button>
+                </form>
+            </div>
         </div>
-
 
         <div class="content">
             <div th:if="${#lists.isEmpty(posts)}">
                 <h1>Здесь будет ваш контент.</h1>
-                <p>Создайте свой первый пост</p>
-                <div class="other-buttons">
-                    <div class="button-create-post">
-                        <a href="/posts/create" role="button">
-                            <span>CREATE</span>
-                        </a>
+                <div th:if="${personLogged.isVerified()}">
+                    <p>Создайте свой первый пост</p>
+                    <div class="other-buttons">
+                        <div class="button-create-post">
+                            <a href="/posts/create" role="button">
+                                <span>CREATE</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
+
             </div>
 
             <div class="post-container" th:each="post : ${posts}">
@@ -120,6 +129,21 @@
                         </a>
                     </div>
                 </div>
+            </div>
+            <div th:if="${personLogged.isVerified()}">
+                <div class="other-buttons">
+                    <div class="button-create-post">
+                        <a href="/posts/create" role="button">
+                            <span>CREATE</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+            <div class="delete-button" th:if="${person == personLogged}">
+                <form th:method="DELETE" th:action="@{/{username}(username=${person.getUsername()})}">
+                    <button type="submit">Удалить аккаунт</button>
+                </form>
             </div>
         </div>
     </div>

@@ -156,7 +156,115 @@ a:visited {
     justify-content: center;
 }
 
+.verification-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ffcccb; /* Светло-красный фон */
+    border: 2px solid #ff6b6b; /* Красная рамка */
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 
+.verification-icon img {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 10px;
+}
+
+.verification-text p {
+    color: #d32f2f; /* Темно-красный текст */
+    font-size: 16px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.verify-button {
+    display: inline-block;
+    background-color: #ff6b6b; /* Красная кнопка */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.verify-button:hover {
+    background-color: #d32f2f; /* Более темный красный при наведении */
+}
+
+
+
+/* Основной стиль для формы поиска */
+.search-result-link {
+    display: flex;
+    justify-content: flex-end; /* Перемещает форму в правую часть */
+    margin: 20px;
+}
+
+.search-result-link form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-result-link input {
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s;
+}
+
+.search-result-link input:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+.search-result-link button {
+    padding: 8px 16px;
+    font-size: 16px;
+    color: white;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-result-link button:hover {
+    background-color: #0056b3;
+}
+
+/* Центрирование ошибки поиска */
+.search-error {
+    display: flex;
+    flex-direction: column; /* Располагает элементы вертикально */
+    justify-content: center; /* Центрирует содержимое по вертикали */
+    align-items: center;   /* Центрирует содержимое по горизонтали */
+    margin: 20px auto;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.search-error p {
+    margin: 0;
+}
+
+.image-error {
+    width: 200px;
+    height: 200px;
+    margin-bottom: 20px; /* Отступ между изображением и текстом */
+}
+
+.text-error {
+    margin-top: 10px; /* Дополнительный отступ, если нужен */
+}
 
 /* Стили для каждого поста */
 .post-container {
@@ -233,6 +341,9 @@ a:visited {
 .post-container > *:not(:last-child) {
     margin-bottom: 15px; /* Отступ между элементами, кроме последнего */
 }
+
+
+
 .logout-button {
     background-color: rgba(255, 0, 30, 0.81);
     color: white;

@@ -61,4 +61,8 @@ public class PersonDetails implements UserDetails {
                 "person=" + person +
                 '}';
     }
+
+    public boolean isVerified() {
+        return this.person.isVerified();
+    }
 }

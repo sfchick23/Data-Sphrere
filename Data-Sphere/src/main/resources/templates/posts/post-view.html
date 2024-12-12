@@ -41,6 +41,7 @@
             <!-- Ссылки на страницы -->
             <ul class="nav-list">
                 <li><a th:href="@{/{username}(username=${personLogged.username})}">Профиль</a></li>
+                <li><a href="/">Лента</a></li>
                 <li><a href="/posts">Посты</a></li>
                 <li><a href="/pages/help">Помощь</a></li>
             </ul>
@@ -54,6 +55,14 @@
                              alt="Profile Picture"/>
                         <a th:href="@{/{author}(author=${post.getAuthor()})}"
                            th:text="${post.author}">Posted by:</a>
+                    </div>
+
+                    <div class="privacy-info" th:if="${personLogged != null && personLogged.getId() == person.getId()}">
+                        <p>
+                            Доступность поста:
+                            <p style="margin-left: 10px" th:text="${post.privacy}">text</p>
+                        </p>
+
                     </div>
 
                     <div class="post-title">

@@ -9,7 +9,7 @@
 }
 
 /* Стили для кнопки */
-.button-view-post, .button-create-post, .button-setting {
+.button-view-post, .button-create-post, .button-setting, .button-private-post, .button-public-post {
     background-color: #333; /* темный фон кнопки */
     border: 2px solid #444; /* граница чуть светлее */
     border-radius: 8px; /* скругление углов */
@@ -19,7 +19,7 @@
 }
 
 /* Стили для самой ссылки */
-.button-view-post a, .button-create-post a, .button-setting a {
+.button-view-post a, .button-create-post a, .button-setting a, .button-private-post a, .button-public-post a{
     color: #fff; /* белый цвет текста */
     font-size: 16px; /* размер шрифта */
     text-decoration: none; /* без подчеркивания */
@@ -30,24 +30,30 @@
 }
 
 /* Эффект при наведении на саму кнопку */
-.button-view-post:hover, .button-create-post:hover, .button-setting:hover{
+.button-view-post:hover, .button-create-post:hover, .button-setting:hover, .button-private-post:hover, .button-public-post:hover{
     background-color: #444; /* цвет фона меняется на более светлый */
     border-color: #666; /* цвет границы меняется */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* тень для кнопки */
 }
 
+.button-private-post, .button-setting{
+    margin-left: 10px;
+}
+
+
+
 /* Эффекты для текста при наведении */
-.button-view-post a:hover, .button-create-post a:hover, .button-setting a:hover{
+.button-view-post a:hover, .button-create-post a:hover, .button-setting a:hover, .button-private-post a:hover, .button-public-post a:hover{
     color: #e6e6e6; /* цвет текста меняется на светлый при наведении */
 }
 
 /* Для устройства с маленьким экраном (например, смартфоны) */
 @media (max-width: 768px) {
-    .button-view-post, .button-create-post, .button-setting{
+    .button-view-post, .button-create-post, .button-setting, .button-private-post, .button-public-post {
         padding: 10px 20px; /* уменьшение отступов на мобильных устройствах */
     }
 
-    .button-view-post a, .button-create-post a, .button-setting a{
+    .button-view-post a, .button-create-post a, .button-setting a, .button-private-post a, .button-public-post a{
         font-size: 14px; /* уменьшение шрифта на мобильных */
     }
 }

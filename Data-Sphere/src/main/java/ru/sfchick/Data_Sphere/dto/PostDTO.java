@@ -22,4 +22,6 @@ public class PostDTO {
     private int authorId;
 
     private PostType postType;
+
+    private PrivacyLevel privacy;
 }

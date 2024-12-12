@@ -39,6 +39,7 @@
             <!-- Ссылки на страницы -->
             <ul class="nav-list">
                 <li><a th:href="@{/{username}(username=${personLogged.username})}">Профиль</a></li>
+                <li><a href="/">Лента</a></li>
                 <li><a href="/posts">Посты</a></li>
                 <li><a href="/pages/help">Помощь</a></li>
             </ul>
@@ -49,6 +50,11 @@
                 <h1 class="form-title">Create a New Post</h1>
                 <form action="/posts/create" method="post" enctype="multipart/form-data" class="create-post-form">
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+                    <div class="form-group">
+                        <label for="privacy">Сделать этот пост приватным?</label>
+                        <input type="checkbox" id="privacy" name="privacy" value="PRIVATE">
+                    </div>
 
                     <div class="form-group">
                         <label for="title" class="form-label">Title:</label>
@@ -78,9 +84,6 @@
                             </div>
                         </div>
                     </div>
-
-
-
                     <div class="form-group">
                         <button type="submit" class="form-submit-button">Create Post</button>
                     </div>

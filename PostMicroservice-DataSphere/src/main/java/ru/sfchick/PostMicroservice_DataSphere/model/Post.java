@@ -36,4 +36,8 @@ public class Post {
     @Enumerated(EnumType.STRING)
     private PostType postType;
 
+    @Column(name = "privacy", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private PrivacyLevel privacy;
+
 }

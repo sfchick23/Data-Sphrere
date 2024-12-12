@@ -39,6 +39,10 @@ public class Person {
 
     @Column(name = "avatar", nullable = true)
     private String avatar;
+
+    @Column(name = "verified")
+    private boolean verified;
+
     @Transient
     public String getPhotosImagePath() {
         if (avatar == null || avatar.isEmpty() || avatar.equals("default")) {

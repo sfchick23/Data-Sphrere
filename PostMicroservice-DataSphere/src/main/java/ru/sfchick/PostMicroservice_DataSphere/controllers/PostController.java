@@ -1,21 +1,15 @@
 package ru.sfchick.PostMicroservice_DataSphere.controllers;
 
-import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.sfchick.PostMicroservice_DataSphere.model.Post;
-import ru.sfchick.PostMicroservice_DataSphere.model.PostType;
 import ru.sfchick.PostMicroservice_DataSphere.service.PostService;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/posts")
@@ -30,7 +24,7 @@ public class PostController {
 
     @GetMapping
     public List<Post> getAllPosts() {
-        return postService.findAll();
+        return postService.findAllPublicPost();
     }
 
     @GetMapping("/{id}")
@@ -43,10 +37,23 @@ public class PostController {
         return postService.findAllByAuthor(author);
     }
 
+    @GetMapping("/publication/{author}/private")
+    public List<Post> getPrivatePostsByPerson(@PathVariable("author") String author) {
+        return postService.findPrivatePostsByAuthor(author);
+    }
+
+    @GetMapping("/publication/{author}/public")
+    public List<Post> getPublicPostsByPerson(@PathVariable("author") String author) {
+        return postService.findPublicPostsByAuthor(author);
+    }
+
+    @GetMapping("/search")
+    public List<Post> getPostsByTitle(@RequestParam(name = "query", required = false) String title) {
+        return postService.searchByTitle(title);
+    }
 
     @PostMapping
     public ResponseEntity<Post> createPost(@RequestBody Post post) {
-        System.out.println("Received content: " + post.getContent());
         postService.save(post);
         return ResponseEntity.status(HttpStatus.CREATED).body(post);
     }

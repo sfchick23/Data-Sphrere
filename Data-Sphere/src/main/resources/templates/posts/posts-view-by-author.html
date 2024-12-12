@@ -34,6 +34,7 @@
             <!-- Ссылки на страницы -->
             <ul class="nav-list">
                 <li><a th:href="@{/{username}(username=${personLogged.username})}">Профиль</a></li>
+                <li><a href="/">Лента</a></li>
                 <li><a href="/posts">Посты</a></li>
                 <li><a href="/pages/help">Помощь</a></li>
             </ul>
@@ -42,6 +43,18 @@
         <div class="content">
             <div th:if="${#lists.isEmpty(posts)}">
                 <p>Здесь будет ваш контент.</p>
+            </div>
+            <div class="other-buttons" th:if="${personLogged.getId() == person.getId()}">
+                <div class="button-container">
+                    <a class="button-public-post" th:href="@{/posts/publication/{author}/public(author=${person.getUsername()})}">
+                        <span>Public</span>
+                    </a>
+                </div>
+                <div class="button-container">
+                    <a class="button-private-post" th:href="@{/posts/publication/{author}/private(author=${person.getUsername()})}">
+                        <span>Private</span>
+                    </a>
+                </div>
             </div>
 
             <div class="post-container" th:each="post : ${posts}">
@@ -72,10 +85,21 @@
             </div>
         </div>
         <div class="right-sidebar">
-            <div class="button-create-post">
+            <div class="button-create-post" th:if="${personLogged.isVerified()}">
                 <a href="/posts/create" role="button">
                     <span>CREATE</span>
                 </a>
+            </div>
+            <div class="verification-message" th:if="${!personLogged.isVerified()}">
+                <div class="verification-icon">
+                    <img src="/images/warning.png" alt="Warning Icon">
+                </div>
+                <div class="verification-text">
+                    <p>Чтобы создавать посты, подтвердите свою учетную запись.</p>
+                    <form th:action="@{'/' + ${personLogged.username} + '/send-verification'}" method="post">
+                        <button class="verify-button" type="submit">Отправить код подтверждения</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

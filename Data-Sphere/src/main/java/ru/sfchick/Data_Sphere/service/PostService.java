@@ -17,6 +17,8 @@ import ru.sfchick.Data_Sphere.dto.PostDTO;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -38,9 +40,48 @@ public class PostService {
         return restTemplate.getForObject(POST_SERVICE_URL + "/" + id, PostDTO.class);
     }
 
+    public List<PostDTO> searchPostsByTitle(String title) {
+        try {
+            ResponseEntity<List<PostDTO>> response = restTemplate.exchange(
+                    POST_SERVICE_URL + "/search?query=" + URLEncoder.encode(title, StandardCharsets.UTF_8),
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<List<PostDTO>>() {}
+            );
+            if (response.getStatusCode().is2xxSuccessful()) {
+                return response.getBody();
+            } else {
+                throw new RuntimeException("Failed to fetch posts: " + response.getStatusCode());
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error during communication with post service", e);
+        }
+    }
+
+
     public List<PostDTO> getPostsByAuthor(String author) {
         ResponseEntity<List<PostDTO>> response = restTemplate.exchange(
                 POST_SERVICE_URL + "/publication/" + author,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<>() {}
+        );
+        return response.getBody();
+    }
+
+    public List<PostDTO> getPrivatePostsByAuthor(String author) {
+        ResponseEntity<List<PostDTO>> response = restTemplate.exchange(
+                POST_SERVICE_URL + "/publication/" + author + "/private",
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<>() {}
+        );
+        return response.getBody();
+    }
+
+    public List<PostDTO> getPublicPostsByAuthor(String author) {
+        ResponseEntity<List<PostDTO>> response = restTemplate.exchange(
+                POST_SERVICE_URL + "/publication/" + author + "/public",
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<>() {}

@@ -16,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.expression.WebExpressionAuthorizationManager;
 import ru.sfchick.Data_Sphere.service.PersonDetailService;
 
 @Configuration
@@ -25,11 +26,14 @@ import ru.sfchick.Data_Sphere.service.PersonDetailService;
 public class SecurityConfig {
 
     private final PersonDetailService personDetailService;
+    private final PersonAccessHandler personAccessHandler;
 
     @Autowired
-    public SecurityConfig(PersonDetailService personDetailService) {
+    public SecurityConfig(PersonDetailService personDetailService, PersonAccessHandler personAccessHandler) {
         this.personDetailService = personDetailService;
+        this.personAccessHandler = personAccessHandler;
     }
+
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
