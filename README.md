@@ -2,5 +2,9 @@
 
 this is final version data-sphrere 
 - 
-
-Posts Users and more 
+this stack of technologies is used: Spring Framework
+                                    Hibernate
+                                    Postgresql 
+                                    Spring mail-sender
+                                    Spring security 
+                                    
